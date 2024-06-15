@@ -23,7 +23,7 @@
 ```
 
 ### Requirements:
-1.`cp .env.example .env`
+`cp .env.example .env`
 
 ### About:
 - A complete examples showing how to implement a producer-consumer model using Python asyncio with Queue and Event.
