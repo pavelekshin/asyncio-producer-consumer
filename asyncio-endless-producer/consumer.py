@@ -18,7 +18,6 @@ async def worker(work_queue: asyncio.Queue, result_queue: asyncio.Queue) -> None
         once the work is complete
     :return:
     """
-
     while True:
         # grab an item from the queue (if there is one)
         task_data = await work_queue.get()
