@@ -23,3 +23,5 @@
 ```
 
 - A complete examples showing how to implement a producer-consumer model using Python asyncio with Queue and Event.
+- asyncio-event-producer - producer with event for kickoff worker tasks
+- asyncio-endless-producer  - endless producer, program runtime 10s
