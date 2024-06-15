@@ -8,10 +8,8 @@ import resulthandler
 
 from settings import settings
 
-# some constants, but could be defined in a config file, or simply passed to run_job function when called
 
-
-async def _controller(
+async def controller(
     batch: List[dict],
     task_completed_callback: Callable,
     job_completed_callback: Callable,
@@ -37,14 +35,12 @@ async def _controller(
     producer_completed = asyncio.Event()
 
     tasks.append(
-        asyncio.create_task(
-            producer.produce_work(batch, work_queue, producer_completed)
-        )
+        asyncio.create_task(producer.producer(batch, work_queue, producer_completed))
     )
 
     # Create the worker (consumer) tasks
     for _ in range(settings.NUM_WORKERS):
-        tasks.append(asyncio.create_task(consumer.do_work(work_queue, result_queue)))
+        tasks.append(asyncio.create_task(consumer.worker(work_queue, result_queue)))
 
     # Create the result handler tasks
     for _ in range(settings.NUM_RESULT_HANDLERS):
@@ -67,21 +63,3 @@ async def _controller(
 
     # all done, callback using the provided callback function
     job_completed_callback({"elapsed_secs": end - start})
-
-
-def run_job(
-    batch: List[dict],
-    task_completed_callback: Callable,
-    job_completed_callback: Callable,
-) -> None:
-    """
-    This is the function caller calls to kick off the job.
-    Note that this function is not a coroutine - it's a standard function that will run the top-level
-    entry point for our async processing.
-
-    :param batch: a list of dictionaries received that defines the parameters for each task that has to run
-    :param task_completed_callback: the callback to use when each task result becomes available
-    :param job_completed_callback: the callback to use when the overall job is completed
-    :return:
-    """
-    asyncio.run(_controller(batch, task_completed_callback, job_completed_callback))

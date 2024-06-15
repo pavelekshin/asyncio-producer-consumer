@@ -2,11 +2,13 @@ import asyncio
 from random import randrange
 from uuid import uuid4
 
+from settings import settings
+
 
 async def data_generator(start: int, job_id: str):
     return [
         {"task_id": i, "number": i, "uuid": job_id}
-        for i in range(start + randrange(10))
+        for i in range(start, start + randrange(settings.NUM_TASKS))
     ]
 
 
@@ -24,4 +26,4 @@ async def producer(work_queue: asyncio.Queue):
         for data in await data_generator(start, job_id):
             await work_queue.put(data)
         await asyncio.sleep(1)
-        start += randrange(10)
+        start += settings.NUM_TASKS

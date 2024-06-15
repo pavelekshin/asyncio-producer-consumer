@@ -3,7 +3,7 @@ from random import random
 from time import perf_counter
 
 
-async def do_work(work_queue: asyncio.Queue, result_queue: asyncio.Queue) -> None:
+async def worker(work_queue: asyncio.Queue, result_queue: asyncio.Queue) -> None:
     """
     This function (coroutine) will perform the actual work, by pulling an item
     from the work queue, doing some work, and pushing the result

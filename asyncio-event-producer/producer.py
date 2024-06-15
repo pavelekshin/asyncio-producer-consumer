@@ -2,7 +2,7 @@ import asyncio
 from typing import List
 
 
-async def produce_work(
+async def producer(
     batch: List[dict], work_queue: asyncio.Queue, producer_completed: asyncio.Event
 ):
     """
