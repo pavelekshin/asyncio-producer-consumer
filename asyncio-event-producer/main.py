@@ -10,8 +10,6 @@ from settings import settings
 async def run() -> None:
     """
     Main app that kicks a "job" that consists of running multiple tasks
-
-    :param job_id: some job identifier
     :return:
     """
     job_id: str = str(uuid4())
